@@ -128,24 +128,31 @@
           "icon_color_open": "blue darken-1",
         },
         {
+          "id": 500,
+          "name": "Treinamentos",
+          "icon": "mdi-bell-outline",
+          "icon_color": "blue lighten-1",
+          "icon_color_open": "blue darken-1",
+          "to": {
+            "name": "TrainingsIndex"
+          }
+        },
+        {
           "id": 100,
           "name": "Configurações",
           "icon": "mdi-cogs",
           "icon_color": "blue lighten-1",
           "icon_color_open": "blue darken-1",
-          "group": "my",
-          "to": {
-            "name": "MyPersonal"
-          },
+          "group": "users",
           "children": [
             {
               "id": 101,
-              "name": "Pessoal",
+              "name": "Usuários",
               "icon": "mdi-playlist-edit",
               "icon_color": "blue darken-1",
               "icon_color_open": "blue darken-3",
               "to": {
-                "name": "MyPersonal"
+                "name": "UsersIndex"
               }
             },
           ]

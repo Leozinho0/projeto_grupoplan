@@ -17,5 +17,9 @@ class UserSeeder extends Seeder
             'password' => bcrypt('123456789'),
             'remember_token' => Str::random(10),
         ]);
+
+        User::factory()
+            ->count(10)
+            ->create();
     }
 }
