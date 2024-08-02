@@ -53,6 +53,15 @@ const routes = [
         },
       },
       {
+        path: '/app/dashboard',
+        name: 'Dashboard',
+        meta: { middleware: Auth },
+        component: () => import(/* webpackChunkName: "Dashboard" */ "@/views/auth/Dashboard.vue"), 
+        meta: { 
+          middleware: Auth,
+        },
+      },
+      {
         path: "/app/users",
         name: "UsersIndex",
         component: () => import(/* webpackChunkName: "UsersIndex" */ "@/views/auth/users/UsersIndex.vue"), 

@@ -9,8 +9,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('training_user', function (Blueprint $table) {
-            $table->unsignedBigInteger('training_id');
-            $table->unsignedBigInteger('user_id');
+            $table->id();
+            $table->unsignedBigInteger('user_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('training_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

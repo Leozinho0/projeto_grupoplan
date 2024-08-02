@@ -28,6 +28,17 @@
         </v-col>
       </v-row>
       <v-row class="mt-0 item">
+        <v-col class="col-12">
+          Usuarios que realizaram:
+          <br>
+          <v-card v-for="(user, index) in users">
+            <v-card-text>
+              {{ user.name }}
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row class="mt-0 item">
         <v-col class="col-12 text-right">
           <v-card flat>
             <v-card-text>
@@ -75,6 +86,7 @@
         loading: false,
 
         training: {},
+        users: {},
 
         breadcrumbs: [ 
           { id: 1, to: { name: 'Home' }, disabled: false, text: 'Home'  }, 
@@ -97,6 +109,7 @@
 
         try {
           await this.show();
+          await this.showTrainingWithUsers();
         } catch (e) {
           //
         } finally {
@@ -155,6 +168,18 @@
               }
             }
           });
+        }
+      },
+      async showTrainingWithUsers(user) {
+        try {
+          const params = {}
+
+          const response = await Training.showWithUsers(this.training.uuid, params);
+          this.users = response.data.data.users;
+        } catch(e) {
+          //
+        } finally {
+          this.loading = false;
         }
       },
     },

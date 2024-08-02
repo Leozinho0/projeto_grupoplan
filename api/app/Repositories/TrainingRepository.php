@@ -16,4 +16,26 @@ class TrainingRepository extends BaseRepository implements TrainingRepositoryInt
         $model->update($data);
         return $model;
     }
+
+    public function getByUser($user, $params = [])
+    {
+        $allTrainings = Training::all();
+        $completedTrainings = $user->trainings;
+        $completedTrainingIds = $completedTrainings->pluck('id')->toArray();
+
+        $allTrainings = $allTrainings->map(function ($training) use ($completedTrainingIds) {
+            $training->completed = in_array($training->id, $completedTrainingIds);
+            return $training;
+        });
+
+        return $allTrainings;
+    }
+
+    public function addByUser($user, $params = [])
+    {
+        $training = Training::whereUuid($params['training'])->first();
+
+        $user->trainings()->toggle($training);
+        return true;
+    }
 }

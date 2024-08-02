@@ -9,6 +9,8 @@ class UserResource extends BaseResource
         return array_merge(parent::toArray($request), [
             'name' => $this->name,
             'email' => $this->email,
+            'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'permissions' => $this->getAllPermissions(),
         ]);
     }
 }

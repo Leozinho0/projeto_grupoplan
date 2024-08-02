@@ -19,6 +19,10 @@ class AuthenticatedSessionController extends Controller
 
         $user = auth()->user();
 
+        $user->loadMissing([
+            'roles'
+        ]);
+
         return new UserResource($user);
     }
 

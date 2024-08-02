@@ -22,7 +22,8 @@
       class="text-left">
       <template v-for="(item, index) in sidebar_items_pt">
         <template v-if="item.children">
-          <v-list-group 
+          <v-list-group
+            v-if="checkPermission(item.permission)"
             no-action 
             :group="item.group">
             <template v-slot:activator>
@@ -42,6 +43,7 @@
             </template>
             <template v-for="(child, child_index) in item.children">
               <v-list-item
+                v-if="checkPermission(child.permission)"
                 active-class="color-base-2"
                 :key="child.id"
                 :to="child.to"
@@ -58,6 +60,7 @@
         </template>
         <template v-else>
           <v-list-item
+            v-if="checkPermission(item.permission)"
             :key="index"
             :to="item.to">
             <v-list-item-icon class="mr-4">
@@ -116,25 +119,20 @@
           "icon": "mdi-home-outline",
           "icon_color": "blue lighten-1",
           "icon_color_open": "blue darken-1",
+          "permission": 'home-view',
           "to": {
             "name": "Home"
           }
         },
         {
-          "id": 500,
-          "name": "Notificações",
-          "icon": "mdi-bell-outline",
+          "id": 0,
+          "name": "Dashboard",
+          "icon": "mdi-chart-bar",
           "icon_color": "blue lighten-1",
           "icon_color_open": "blue darken-1",
-        },
-        {
-          "id": 500,
-          "name": "Treinamentos",
-          "icon": "mdi-bell-outline",
-          "icon_color": "blue lighten-1",
-          "icon_color_open": "blue darken-1",
+          "permission": 'dashboard-view',
           "to": {
-            "name": "TrainingsIndex"
+            "name": "Dashboard"
           }
         },
         {
@@ -143,7 +141,8 @@
           "icon": "mdi-cogs",
           "icon_color": "blue lighten-1",
           "icon_color_open": "blue darken-1",
-          "group": "users",
+          "group": "app",
+          "permission": 'home-view',
           "children": [
             {
               "id": 101,
@@ -151,8 +150,20 @@
               "icon": "mdi-playlist-edit",
               "icon_color": "blue darken-1",
               "icon_color_open": "blue darken-3",
+              "permission": 'user-view',
               "to": {
                 "name": "UsersIndex"
+              }
+            },
+            {
+              "id": 102,
+              "name": "Treinamentos",
+              "icon": "mdi-text",
+              "icon_color": "blue lighten-1",
+              "icon_color_open": "blue darken-1",
+              "permission": 'training-view',
+              "to": {
+                "name": "TrainingsIndex"
               }
             },
           ]
@@ -184,6 +195,12 @@
         } finally {
           this.loading_init = false;
         }
+      },
+      checkPermission(permission) {
+        if(this.usuario.permissions.some(p => p.name === permission)) {
+          return true;
+        }
+        return false;
       },
     },
     mounted() {

@@ -16,7 +16,6 @@ class CreateTrainingRequest extends FormRequest
         $rules = [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:50'],
-            'email' => 'unique:users,email|required|min:4|max:100',
         ];
 
         return $rules;

@@ -15,4 +15,15 @@ export default {
       'Content-Type': 'multipart/form-data'
     }});
   },
+  async getByUser(user, params = null) {
+    return Api().get(`/api/users/${user}/trainings`);
+  },
+  async complete(user, params = null){
+    return Api().post(`/api/users/${user}/trainings`, params, { headers: {
+      'Content-Type': 'multipart/form-data'
+    }});
+  },
+  async showWithUsers(training, params = null) {
+    return Api().get(`/api/trainings/${training}/users`);
+  },
 }

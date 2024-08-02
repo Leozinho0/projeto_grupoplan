@@ -22,14 +22,18 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = $this->userRepository->getAll($request->all());
-        $users->loadMissing([]);
+        $users->loadMissing([
+            'roles'
+        ]);
 
         return UserResource::collection($users);
     }
 
     public function show(User $user)
     {
-        $user->loadMissing([]);
+        $user->loadMissing([
+            'roles'
+        ]);
 
         return new UserResource($user);
     }
@@ -37,7 +41,9 @@ class UserController extends Controller
     public function store(CreateUserRequest $request)
     {
         $user = $this->userRepository->create($request->validated(), []);
-        $user->loadMissing([]);
+        $user->loadMissing([
+            'roles'
+        ]);
 
         return new UserResource($user);
     }
@@ -47,7 +53,9 @@ class UserController extends Controller
         $this->userRepository->update($user, $request->validated());
         
         $user->refresh();
-        $user->loadMissing([]);
+        $user->loadMissing([
+            'roles'
+        ]);
 
         return new UserResource($user);
     }

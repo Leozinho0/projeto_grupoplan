@@ -8,7 +8,7 @@
           <v-col class="col-12">
             <v-card flat>
               <v-card-text>
-                <span class="display-2 color-base--text">Home</span>
+                <span class="display-2 color-base--text">Dashboard</span>
               </v-card-text>
             </v-card>
           </v-col>
