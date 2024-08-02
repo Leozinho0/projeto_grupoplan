@@ -42,9 +42,9 @@
                 </v-col>
                 <v-col class="col-12 col-md-8 text-right">
                   <v-btn
-                    disabled
                     color="color-base"
-                    class="white--text">
+                    class="white--text"
+                    :to="{ name: 'UsersCreate' }">
                     <v-icon left>
                       mdi-plus-box-outline
                     </v-icon>

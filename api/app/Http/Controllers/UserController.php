@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -28,6 +29,14 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        $user->loadMissing([]);
+
+        return new UserResource($user);
+    }
+
+    public function store(CreateUserRequest $request)
+    {
+        $user = $this->userRepository->create($request->validated(), []);
         $user->loadMissing([]);
 
         return new UserResource($user);

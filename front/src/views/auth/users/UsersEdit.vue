@@ -27,6 +27,19 @@
           <UsersForm :user.sync="user" ref="formUsuario"></UsersForm>
         </v-col>
       </v-row>
+      <template v-if="errors">
+        <v-row>
+          <v-col class="col-12" v-for="error in errors">
+            <v-alert
+              class="mb-0"
+              transition="scale-transition"
+              dense
+              type="error">
+              {{ error[0] }}
+            </v-alert>
+          </v-col>
+        </v-row>
+      </template>
       <v-row class="mt-0 item">
         <v-col class="col-12 text-right">
           <v-card flat>
@@ -75,6 +88,7 @@
         loading: false,
 
         user: {},
+        errors: {},
 
         breadcrumbs: [ 
           { id: 1, to: { name: 'Home' }, disabled: false, text: 'Home'  }, 
@@ -130,12 +144,18 @@
           }).then(async (result,) => {
             if (result.isConfirmed) {
               this.loading = true;
+              this.errors = {};
 
               let params = {
                 _method: "put",
                 name: this.user.name,
                 email: this.user.email,
               };
+
+              if(this.user.password) {
+                params.password = this.user.password;
+                params.password_confirmation = this.user.password_confirmation;
+              }
 
               try {
                 const response = await User.update(this.user.uuid, params);
@@ -149,7 +169,9 @@
 
                 this.initialize();
               } catch(e) {
-                //
+                if(e.response.status === 422) {
+                  this.errors = e.response.data.errors;
+                }
               } finally {
                 this.loading = false;
               }

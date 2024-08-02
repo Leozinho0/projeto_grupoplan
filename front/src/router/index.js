@@ -69,6 +69,14 @@ const routes = [
         },
       },
       {
+        path: '/app/users/create',
+        name: 'UsersCreate',
+        component: () => import(/* webpackChunkName: "UsersCreate" */ '../views/auth/users/UsersCreate.vue'),
+        meta: { 
+          middleware: Auth,
+        },
+      },
+      {
         path: "/app/trainings",
         name: "TrainingsIndex",
         component: () => import(/* webpackChunkName: "TrainingsIndex" */ "@/views/auth/trainings/TrainingsIndex.vue"), 

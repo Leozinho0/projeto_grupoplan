@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateTrainingRequest;
 use App\Http\Requests\UpdateTrainingRequest;
 use App\Http\Resources\TrainingResource;
 use App\Models\Training;
@@ -28,6 +29,14 @@ class TrainingController extends Controller
 
     public function show(Training $training)
     {
+        $training->loadMissing([]);
+
+        return new TrainingResource($training);
+    }
+
+    public function store(CreateTrainingRequest $request)
+    {
+        $training = $this->trainingRepository->create($request->validated(), []);
         $training->loadMissing([]);
 
         return new TrainingResource($training);

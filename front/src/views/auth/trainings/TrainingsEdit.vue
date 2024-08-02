@@ -8,7 +8,7 @@
         <v-col class="col-12">
           <v-card flat>
             <v-card-text>
-              <span class="display-2 color-base--text">Editar Usuário</span>
+              <span class="display-2 color-base--text">Editar Treinamento</span>
             </v-card-text>
           </v-card>
         </v-col>
@@ -134,6 +134,7 @@
               let params = {
                 _method: "put",
                 name: this.training.name,
+                description: this.training.description,
               };
 
               try {

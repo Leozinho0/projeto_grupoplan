@@ -2,13 +2,13 @@
 
 namespace App\Http\Resources;
 
-class UserResource extends BaseResource
+class TrainingResource extends BaseResource
 {
     public function toArray($request)
     {
         return array_merge(parent::toArray($request), [
             'name' => $this->name,
-            'email' => $this->email,
+            'description' => $this->description,
         ]);
     }
 }

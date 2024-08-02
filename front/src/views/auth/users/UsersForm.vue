@@ -36,6 +36,36 @@
                       required>
                     </v-text-field>
                   </v-col>
+                  <v-col class="col-12 col-md-6">
+                    <v-text-field
+                      v-model="user.password"
+                      color="color-base"
+                      outlined
+                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show1 ? 'text' : 'password'"
+                      :error-messages="passwordErrors"
+                      label="Senha"
+                      @blur="$v.user.password.$touch()"
+                      required
+                      persistent-placeholder
+                      dense
+                      @click:append="show1 = !show1">
+                    </v-text-field>
+                  </v-col>
+                  <v-col class="col-12 col-md-6">
+                    <v-text-field
+                      v-model="user.password_confirmation"
+                      color="color-base"
+                      outlined
+                      :type="show1 ? 'text' : 'password'"
+                      label="Repetir senha"
+                      :error-messages="passwordConfirmationErrors"
+                      @blur="$v.user.password_confirmation.$touch()"
+                      required
+                      persistent-placeholder
+                      dense>
+                    </v-text-field>
+                  </v-col>
                 </v-row>
               </v-form>
             </v-card-text>
@@ -50,7 +80,7 @@
   import SK2 from "@/components/SK2.vue";
 
   import { validationMixin } from "vuelidate";
-  import { required, email, maxLength } from "vuelidate/lib/validators";
+  import { required, email, maxLength, sameAs, requiredIf } from "vuelidate/lib/validators";
 
   export default {
     mixins: [validationMixin],
@@ -59,6 +89,8 @@
       user: {
         name: { required },
         email: { required, email },
+        password: { maxLength: maxLength(100) },
+        password_confirmation: { requiredIfPassword: requiredIf("password") },
       },
     },
     props: {
@@ -92,11 +124,24 @@
         !this.$v.user.email.required && errors.push(this.valid_label_obrigatorio);
         return errors;
       },
+      passwordErrors() {
+        const errors = [];
+        if (!this.$v.user.password.$dirty) return errors;
+        !this.$v.user.password.maxLength && errors.push(this.valid_max_length);
+        return errors;
+      },
+      passwordConfirmationErrors() {
+        const errors = [];
+        if (!this.$v.user.password_confirmation.$dirty) return errors;
+        !this.$v.user.password_confirmation.requiredIfPassword && errors.push(this.valid_label_obrigatorio);
+        return errors;
+      },
     },
     data() {
       return {
         loading_init: true,
         loading: false,
+        show1: false,
 
         valid_label_obrigatorio: "Campo obrigatório", 
         valid_label_invalido: "Dado inválido",

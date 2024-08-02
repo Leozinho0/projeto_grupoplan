@@ -8,7 +8,7 @@
         <v-col class="col-12">
           <v-card flat>
             <v-card-text>
-              <span class="display-2 color-base--text">Novo Treinamento</span>
+              <span class="display-2 color-base--text">Novo Usuário</span>
             </v-card-text>
           </v-card>
         </v-col>
@@ -24,9 +24,22 @@
       </v-row>
       <v-row class="mt-0 item">
         <v-col class="col-12">
-          <TrainingsForm :training.sync="training" ref="formTrainamento"></TrainingsForm>
+          <UsersForm :user.sync="user" ref="formUser"></UsersForm>
         </v-col>
       </v-row>
+      <template v-if="errors">
+        <v-row>
+          <v-col class="col-12" v-for="error in errors">
+            <v-alert
+              class="mb-0"
+              transition="scale-transition"
+              dense
+              type="error">
+              {{ error[0] }}
+            </v-alert>
+          </v-col>
+        </v-row>
+      </template>
       <v-row class="mt-0 item">
         <v-col class="col-12 text-right">
           <v-card flat>
@@ -63,31 +76,32 @@
     import { mapGetters } from "vuex";
     import SK2 from "@/components/SK2.vue";
 
-    import Training from "@/services/Training";
+    import User from "@/services/User";
 
-    import TrainingsForm from "@/views/auth/trainings/TrainingsForm.vue";
+    import UsersForm from "@/views/auth/users/UsersForm.vue";
 
     import Breadcrumbs from '@/components/Breadcrumbs.vue';
 
     export default {
-      name: 'TrainingsCreate',
+      name: 'UsersCreate',
       data() {
         return {
           loading_init: true,
           loading: false,
 
-          training: {},
+          user: {},
+          errors: {},
 
           breadcrumbs: [ 
             { id: 1, to: { name: 'Home' }, disabled: false, text: 'Home'  }, 
-            { id: 2, to: { name: 'TrainingsIndex' }, disabled: false, text: 'Treinamentos'  }, 
-            { id: 3, to: { name: 'TrainingsCreate' }, disabled: true, text: 'Novo Treinamento'  }, 
+            { id: 2, to: { name: 'UsersIndex' }, disabled: false, text: 'Usuários'  }, 
+            { id: 3, to: { name: 'UsersCreate' }, disabled: true, text: 'Novo Usuário'  }, 
           ],
         }
       },
       components: {
         SK2,
-        TrainingsForm,
+        UsersForm,
         Breadcrumbs,
       },
       computed: {
@@ -106,9 +120,9 @@
             }
         },
         async store() {
-          this.$refs.formTrainamento.$v.$touch();
+          this.$refs.formUser.$v.$touch();
             
-          if(!this.$refs.formTrainamento.$v.$invalid){
+          if(!this.$refs.formUser.$v.$invalid){
             this.$swal({
               icon: 'warning',
               title: 'Cadastrar Item?',
@@ -120,15 +134,18 @@
             }).then(async (result,) => {
               if (result.isConfirmed) {
                 this.loading = true;
+                this.errors = {};
 
                 const params = {
-                  name: this.training.name,
-                  description: this.training.description,
+                  name: this.user.name,
+                  email: this.user.email,
+                  password: this.user.password,
+                  password_confirmation: this.user.password_confirmation
                 };
     
                 try {
-                  const response = await Training.store(params);
-                  this.training = response.data.data;
+                  const response = await User.store(params);
+                  this.user = response.data.data;
                     
                   this.$notify({
                     group: "sistema",
@@ -138,7 +155,9 @@
   
                   this.initialize();
                 } catch(e) {
-                  //
+                  if(e.response.status === 422) {
+                    this.errors = e.response.data.errors;
+                  }
                 } finally {
                   this.loading = false;
                 }
