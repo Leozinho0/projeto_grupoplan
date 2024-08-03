@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\User;
+use App\Models\Training;
 use App\Observers\BaseModelObserver;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,5 +17,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         User::observe(BaseModelObserver::class);
+        Training::observe(BaseModelObserver::class);
     }
 }

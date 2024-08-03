@@ -6,8 +6,8 @@
       <v-spacer></v-spacer>
     </template>
     <v-toolbar-title>
-      <v-img v-if="this.$vuetify.theme.isDark" contain :src="require('@/assets/sys/img/logo_1.png')" width="130"></v-img>
-      <v-img v-else contain :src="require('@/assets/sys/img/logo_1.png')" width="130"></v-img>
+      <v-img v-if="this.$vuetify.theme.isDark" contain :src="require('@/assets/sys/img/logo_1.png')" width="80"></v-img>
+      <v-img v-else contain :src="require('@/assets/sys/img/logo_1.png')" width="80"></v-img>
     </v-toolbar-title>
     <v-spacer></v-spacer>
     <CompNotifications></CompNotifications>

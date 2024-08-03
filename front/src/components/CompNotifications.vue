@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon class="color-base-2" :to="{ name: 'Notifications' }">
+  <v-btn icon class="color-base-2">
     <v-badge overlap color="red" :value="items.data ? (items.data.length > 0) : false" :content="items.data ? items.data.length : null">
       <v-icon>mdi-bell-outline</v-icon>
     </v-badge>
@@ -42,14 +42,7 @@
         filter = {};
 
         try {
-          const params = {
-            page: page,
-            filter: filter,
-          };
-
-          const response = await Notification.index(params);
-          this.items = response.data;
-          this.totalItems = response.data.meta.total;
+          //
         } catch(e) {
           //
         } finally {

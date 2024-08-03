@@ -9,6 +9,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('App\Repositories\UserRepositoryInterface', 'App\Repositories\UserRepository');
+        $this->app->bind('App\Repositories\TrainingRepositoryInterface', 'App\Repositories\TrainingRepository');
     }
 
     public function boot()

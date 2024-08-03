@@ -48,12 +48,72 @@ const routes = [
         name: 'Home',
         meta: { middleware: Auth },
         component: () => import(/* webpackChunkName: "Home" */ "@/views/auth/Home.vue"), 
+        meta: { 
+          middleware: Auth,
+        },
+      },
+      {
+        path: '/app/dashboard',
+        name: 'Dashboard',
+        meta: { middleware: Auth },
+        component: () => import(/* webpackChunkName: "Dashboard" */ "@/views/auth/Dashboard.vue"), 
+        meta: { 
+          middleware: Auth,
+        },
+      },
+      {
+        path: "/app/users",
+        name: "UsersIndex",
+        component: () => import(/* webpackChunkName: "UsersIndex" */ "@/views/auth/users/UsersIndex.vue"), 
+        meta: { 
+          middleware: Auth,
+        },
+      },
+      {
+        path: "/app/users/:user/edit",
+        name: "UsersEdit",
+        component: () => import(/* webpackChunkName: "UsersEdit" */ "@/views/auth/users/UsersEdit.vue"), 
+        meta: { 
+          middleware: Auth,
+        },
+      },
+      {
+        path: '/app/users/create',
+        name: 'UsersCreate',
+        component: () => import(/* webpackChunkName: "UsersCreate" */ '../views/auth/users/UsersCreate.vue'),
+        meta: { 
+          middleware: Auth,
+        },
+      },
+      {
+        path: "/app/trainings",
+        name: "TrainingsIndex",
+        component: () => import(/* webpackChunkName: "TrainingsIndex" */ "@/views/auth/trainings/TrainingsIndex.vue"), 
+        meta: { 
+          middleware: Auth,
+        },
+      },
+      {
+        path: "/app/trainings/:training/edit",
+        name: "TrainingsEdit",
+        component: () => import(/* webpackChunkName: "TrainingsEdit" */ "@/views/auth/trainings/TrainingsEdit.vue"), 
+        meta: { 
+          middleware: Auth,
+        },
+      },
+      {
+        path: '/app/trainings/create',
+        name: 'TrainingsCreate',
+        component: () => import(/* webpackChunkName: "TrainingsCreate" */ '../views/auth/trainings/TrainingsCreate.vue'),
+        meta: { 
+          middleware: Auth,
+        },
       },
       {
         path: "/app/*",
         name: "Notfound",
         component: () => import("@/views/auth/NotFound.vue")
-      }
+      },
     ]
   },
   {
